@@ -1,0 +1,13 @@
+Backend:- 
+
+
+npm init -y 
+
+npm i express   
+npm i dotenv cors
+npx nodemon
+
+npm i mongoose
+npm install express-validator
+npm i cookie-parser
+npm i bcrypt jsonwebtoken  # for authentication
