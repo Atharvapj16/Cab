@@ -260,7 +260,3 @@ Logs out the authenticated user by blacklisting the JWT token and clearing the a
     "message": "Access denied. No token provided."
   }
   ```
-
-
-git config --global user.email "atharvapj1629@gmail.com"
-git config --global user.name "Atharvapj16"
