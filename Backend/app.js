@@ -15,6 +15,8 @@ const userRoutes = require('./routes/user.routes');  // Import user routes
 app.use(express.json());  // Middleware to parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));  
 
+const captainRoutes = require('./routes/captain.routes');  // Import captain routes
+app.use('/captain', captainRoutes);  // Use captain routes under the /captain
 app.get('/',(req,res)=>{
     res.send('Hello World!');
 });
