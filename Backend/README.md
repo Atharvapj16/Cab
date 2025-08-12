@@ -260,3 +260,199 @@ Logs out the authenticated user by blacklisting the JWT token and clearing the a
     "message": "Access denied. No token provided."
   }
   ```
+
+
+
+
+
+
+---
+
+## Captain Endpoints
+
+### Register Captain
+
+**Endpoint:**  
+`POST /captain/register`
+
+**Description:**  
+Registers a new captain. Validates input, hashes password, creates captain, returns JWT and captain info.
+
+**Request Body:**
+```json
+{
+  "fullname": {
+    "firstname": "string (min 3 chars, required)",
+    "lastname": "string (min 3 chars, optional)"
+  },
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)",
+  "vehicle": {
+    "color": "string (min 3 chars, required)",
+    "plate": "string (min 3 chars, required)",
+    "capacity": "integer (min 1, required)",
+    "vehicleType": "string (car|motorcycle|auto, required)",
+    "vehicleName": "string (min 3 chars, required)"
+  }
+}
+```
+
+
+
+**Responses:**
+
+- **201 Created**
+  ```json
+  {
+    "token": "JWT_TOKEN_STRING",
+    "captain": {
+      "_id": "CAPTAIN_ID",
+      "fullname": { "firstname": "John", "lastname": "Smith" },
+      "email": "john.smith@example.com",
+      "vehicle": {
+        "color": "Red",
+        "plate": "XYZ123",
+        "capacity": 4,
+        "vehicleType": "car",
+        "vehicleName": "Honda"
+      },
+      "status": "inactive",
+      "socketId": null,
+      "location": { "ltd": null, "lng": null }
+    }
+  }
+
+ ```
+- **400 Bad Request** (Validation)
+  ```json
+  {
+    "errors": [
+      { "msg": "First name must be at least 3 characters long", "param": "fullname.firstname", "location": "body" }
+      // ...other validation errors
+    ]
+  }
+  ```
+- **400 Bad Request** (Already exists)
+  ```json
+  { "message": "Captain already exist" }
+  ```
+
+---
+
+### Login Captain
+
+**Endpoint:**  
+`POST /captain/login`
+
+**Description:**  
+Authenticates captain, returns JWT and captain info.
+
+
+
+
+**Request Body:**
+```json
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)"
+}
+```
+
+**Responses:**
+
+- **200 OK**
+  ```json
+  {
+    "token": "JWT_TOKEN_STRING",
+    "captain": {
+      "_id": "CAPTAIN_ID",
+      "fullname": { "firstname": "John", "lastname": "Smith" },
+      "email": "john.smith@example.com",
+      "vehicle": { ... },
+      "status": "inactive",
+      "socketId": null,
+      "location": { "ltd": null, "lng": null }
+    }
+  }
+  ```
+
+
+- **400 Bad Request** (Validation)
+  ```json
+  {
+    "errors": [
+      { "msg": "Invalid Email", "param": "email", "location": "body" }
+      // ...other validation errors
+    ]
+  }
+  ```
+- **401 Unauthorized**
+  ```json
+  { "message": "Invalid email or password" }
+  ```
+
+---
+
+### Get Captain Profile
+
+**Endpoint:**  
+`GET /captain/profile`
+
+**Description:**  
+Returns authenticated captain's profile. Requires JWT.
+
+
+
+
+**Responses:**
+
+- **200 OK**
+  ```json
+  {
+    "captain": {
+      "_id": "CAPTAIN_ID",
+      "fullname": { "firstname": "John", "lastname": "Smith" },
+      "email": "john.smith@example.com",
+      "vehicle": { ... },
+      "status": "inactive",
+      "socketId": null,
+      "location": { "ltd": null, "lng": null }
+    }
+  }
+  ```
+- **401 Unauthorized**
+  ```json
+  { "message": "Unauthorized" }
+  ```
+
+---
+
+### Logout Captain
+
+**Endpoint:**  
+`GET /captain/logout`
+
+**Description:**  
+Blacklists JWT, clears cookie.
+
+**Responses:**
+
+- **200 OK**
+  ```json
+  { "message": "Logout successfully" }
+  ```
+- **401 Unauthorized**
+  ```json
+  { "message": "Unauthorized" }
+  ```
+
+---
+
+## Notes
+
+- All endpoints validate input using `express-validator`.
+- Passwords are hashed using bcrypt before storing.
+- JWT tokens are generated for authentication and must be sent via cookie or `Authorization` header.
+- Logout endpoints blacklist tokens using [`BlacklistToken`](models/blacklistToken.model.js).
+- Authentication middleware is implemented in [`auth.middleware.js`](middlewares/auth.middleware.js).
+- Captain and user models are defined in [`captain.model.js`](models/captain.model.js) and [`user.model.js`](models/user.model.js).
