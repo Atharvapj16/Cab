@@ -11,3 +11,25 @@ npm i mongoose
 npm install express-validator
 npm i cookie-parser
 npm i bcrypt jsonwebtoken  # for authentication
+
+
+
+
+
+Frontend:-
+npm create vite@latest
+cd frontend  
+npm install
+npm run dev
+npm install tailwindcss @tailwindcss/vite 
+
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+npm i react-router-dom
+
+In app.jsx:- shortcut for boilerplate ==> rafce
+
+
+
+npm install axios socket.io-client @gsap/react @react-google-maps/api remixicon
