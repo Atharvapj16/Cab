@@ -18,7 +18,7 @@ const CaptainSignup = () => {
   const [ vehicleCapacity, setVehicleCapacity ] = useState('')
   const [ vehicleType, setVehicleType ] = useState('')
 
-
+//use copilot and ask him to compare this with with backend and make update to include vehicle name
   const { captain, setCaptain } = React.useContext(CaptainDataContext)
 
 
@@ -161,7 +161,8 @@ const CaptainSignup = () => {
               <option value="" disabled>Select Vehicle Type</option>
               <option value="car">Car</option>
               <option value="auto">Auto</option>
-              <option value="moto">Moto</option>
+              
+              <option value="bike">Bike</option>
             </select>
           </div>
 
